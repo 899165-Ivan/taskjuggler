@@ -334,7 +334,7 @@ taskreport overview "" {
 
 
 # Initial planning
-taskreport InitPlan "initial_plan.html" {
+taskreport InitPlan "" {
   scenarios plan 
   headline "Initial planning of the project."
   columns bsi { title 'WBS' }, name, start, end, effort, chart { ${TaskTip} }
