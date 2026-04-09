@@ -282,7 +282,7 @@ textreport frame "" {
 
   textreport "InitPlan" {
     formats html
-    title "Initial Plan."
+    title "Initial Plan"
     center '<[report id="InitPlan"]>'
   }
   
