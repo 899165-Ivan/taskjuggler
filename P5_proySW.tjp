@@ -3,6 +3,8 @@
  * project planification using TaskJuggler in the "Proyecto Software" course.
  * It is based on the Tutorial project offered by TaskJuggler and maintains 
  * some elements of it
+ *
+ * Autor de la práctica: Iván Remartínez Sánchez NIP899165
  */
 
 project pSix "Web Game"  2025-12-15 +7m {
@@ -280,7 +282,7 @@ textreport frame "" {
     center '<[report id="overview"]>'
   }
 
-  textreport InitPlan "initial_plan.html" {
+  textreport InitPlan "initial_plan" {
     formats html
     title "Initial Plan"
     center '<[report id="InitPlan"]>'
