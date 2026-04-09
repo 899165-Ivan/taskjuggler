@@ -280,7 +280,7 @@ textreport frame "" {
     center '<[report id="overview"]>'
   }
 
-  textreport InitPlan "" {
+  textreport InitPlan "initial_plan.html" {
     formats html
     title "Initial Plan"
     center '<[report id="InitPlan"]>'
@@ -334,7 +334,7 @@ taskreport overview "" {
 
 
 # Initial planning
-taskreport InitPlan "" {
+taskreport InitPlan "initial_plan.html" {
   scenarios plan 
   headline "Initial planning of the project."
   columns bsi { title 'WBS' }, name, start, end, effort, chart { ${TaskTip} }
