@@ -19,7 +19,7 @@ project pSix "Web Game"  2025-12-15 +5m {
   # the project reports. If not specified, the current day will be
   # used, but this will likely be outside of the project range, so it
   # can't be seen in the reports.
-  now 2026-02-25-13:00
+  now 2026-04-09-12:00
   # The currency for all money values is the US Dollar.
   currency "EUR"
 
@@ -67,6 +67,11 @@ resource dev2 "Samantha Müller" {
 }
 resource dev3 "Peter Green" {
   email "kkk@unizar.es"
+}
+
+resource dev4 "Iván" {
+  email "899165@unizar.es"
+  limits { dailymax 4h }
 }
 
 # Now we specify the work packages. The whole project is described as
@@ -120,6 +125,53 @@ task WMGame "Web & Mobile Game" {
     }
   }
 
+  task tDeployment "Cloud Back End Deployment" {
+    purge chargeset
+    chargeset back
+    depends WMGame.tback
+    task tEvaluationCloud "Provieders Cloud Evaluation" {
+      effort 3d
+      allocate dev4, dev1
+      journalentry 2026-04-09 "Promising Candidates" {
+        author dev4
+        alert green
+        summary "Cloud VM looks good."
+      }
+    }
+    task tExecutionCloud "Cloud Execution" {
+      effort 4d
+      allocate dev4, dev1
+      depends WMGame.tDeployment.tEvaluationCloud
+    }
+  }
+
+  task tAndroidF "Android Front End" {
+    purge chargeset
+    chargeset mFront
+    responsible dev4
+    depends WMGame.tback.tBEd
+    task tGUId "Android GUI Design" {
+      effort 9d
+      actual:effort 15d
+      allocate dev4, dev3
+      journalentry 2026-01-15 "Problems with the GUI design tool" {
+        author dev3
+        alert yellow
+        summary "The tool used for the GUI design has given me a lot of problems. I recommend to look for other one."
+      }
+    }
+    task tFEc "Android Front End Construction" {
+      effort 15d
+      allocate dev4, dev2, dev3
+      depends WMGame.tAndroidF.tGUId
+    }
+    task tFEt "Android Front End Test" {
+      effort 6d
+      allocate dev4, dev1
+      depends WMGame.tAndroidF.tFEc
+    }    
+  }
+
   task twebF "Web Front End" {
     purge chargeset
     chargeset wFront
@@ -148,12 +200,16 @@ task WMGame "Web & Mobile Game" {
   }
 
   task ttest "Acceptance tests" {
+      start 2026-05-15
       effort 10d
       allocate boss
       allocate dev2
+      allocate dev4
       actual:effort 20d
       depends WMGame.twebF
+      depends WMGame.tAndroidF
       depends WMGame.tback
+      depends WMGame.tDeployment
       }
 
     
@@ -223,6 +279,12 @@ textreport frame "" {
     formats html
     center '<[report id="overview"]>'
   }
+
+  textreport "InitPlan" {
+    formats html
+    title "Initial Plan."
+    center '<[report id="InitPlan"]>'
+  }
   
   textreport "Status" {
     formats html
@@ -270,6 +332,16 @@ taskreport overview "" {
   caption 'All effort values are in man days.'
 }
 
+
+# Initial planning
+taskreport InitPlan "" {
+  scenarios plan 
+  headline "Initial planning of the project."
+  columns bsi { title 'WBS' }, name, start, end, effort, chart { ${TaskTip} }
+  timeformat "%a %Y-%m-%d"
+  loadunit days
+  hideresource @all
+}
 
 # Macro to set the background color of a cell according to the alert
 # level of the task.
